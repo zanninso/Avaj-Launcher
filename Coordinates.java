@@ -4,7 +4,7 @@ public class Coordinates
     private Integer latitude;
     private Integer height;
 
-    public Coordinates(Integer longitude ,Integer latitude ,Integer height)
+    Coordinates(Integer longitude ,Integer latitude ,Integer height)
     {
         this.longitude = longitude;
         this.latitude = latitude;
