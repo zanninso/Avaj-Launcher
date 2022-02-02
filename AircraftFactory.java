@@ -1,6 +1,6 @@
 
 public class AircraftFactory {
-    public Flyable newAircraft(String type, String name, Integer longitude, Integer latitude, Integer height)
+    public static Flyable newAircraft(String type, String name, int longitude, int latitude, int height)
     {
         if (type.equals("Helicopter"))
             return (new Helicopter(name, new Coordinates(longitude, latitude, height)));

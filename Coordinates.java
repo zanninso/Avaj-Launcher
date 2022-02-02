@@ -1,25 +1,25 @@
 public class Coordinates
 {
-    private Integer longitude;
-    private Integer latitude;
-    private Integer height;
+    private int longitude;
+    private int latitude;
+    private int height;
 
-    Coordinates(Integer longitude ,Integer latitude ,Integer height)
+    Coordinates(int longitude ,int latitude ,int height)
     {
         this.longitude = longitude;
         this.latitude = latitude;
         this.height = height;
     }
 
-    public Integer getHeight() {
+    public int getHeight() {
         return height;
     }
     
-    public Integer getLatitude() {
+    public int getLatitude() {
         return latitude;
     }
 
-    public Integer getLongitude() {
+    public int getLongitude() {
         return longitude;
     }
 }
