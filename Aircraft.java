@@ -14,4 +14,8 @@ public class Aircraft {
     {
         return(idCounter++);
     }
+
+    public String getStringCoordinates() {
+        return coordinates.toString();
+    }
 }

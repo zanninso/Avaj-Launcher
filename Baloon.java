@@ -20,7 +20,7 @@ public class Baloon extends Aircraft implements Flyable {
         }
     }
 
-    public void updateConditions()
+    public void updateConditions() throws NegativeCoordinatesException, OutOfRangeException
     {
         if (weatherTower == null)
             throw new RuntimeException("weatherTower not registred");
@@ -30,23 +30,21 @@ public class Baloon extends Aircraft implements Flyable {
         int height = coordinates.getHeight();
         switch (weather) {
             case "SUN":
-                longitude += 2;
-                height += 4;
+                longitude = Math.max(longitude, longitude + 2);
+                height = Math.min(100, height + 4);
                 break;
             case "RAIN":
-                height -= 5;
+                height = Math.max(0, height - 5);
                 break;
             case "FOG":    
-                height -= 3;
+                height = Math.max(0, height - 3);
                 break;
             case "SNOW":
-                height -= 15;
+                height = Math.max(0, height - 15);
                 break;
         }
-        if (height > 100)
-            height = 100;
+        System.out.println(getAid() + ": " + getWeatherMsg(weatherTower.getWeather(coordinates)));
         coordinates = new Coordinates(longitude, latitude, height);
-        System.out.println(getWeatherMsg(weatherTower.getWeather(coordinates)));
         if (height <= 0) 
             weatherTower.unregister(this);
     }
@@ -57,5 +55,9 @@ public class Baloon extends Aircraft implements Flyable {
 
     public String getAid() {
         return ("Baloon#" + name + "(" + id + ")");
+    }
+
+    public String getCoordinates() {
+        return super.getStringCoordinates();
     }
 }

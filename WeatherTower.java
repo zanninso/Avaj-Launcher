@@ -3,7 +3,7 @@ public class WeatherTower extends Tower {
         return (WeatherProvider.getProvider().getCurrentWeather(coordinates));
     }
 
-    void changeWeather() {
+    void changeWeather() throws NegativeCoordinatesException, OutOfRangeException {
         conditionsChanged();
     }
 }

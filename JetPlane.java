@@ -21,7 +21,7 @@ public class JetPlane extends Aircraft implements Flyable {
         }
     }
 
-    public void updateConditions()
+    public void updateConditions() throws NegativeCoordinatesException, OutOfRangeException
     {
         if (weatherTower == null)
             throw new RuntimeException("weatherTower not registred");
@@ -31,23 +31,23 @@ public class JetPlane extends Aircraft implements Flyable {
         int height = coordinates.getHeight();
         switch (weather) {
             case "SUN":
-                latitude += 10;
-                height += 2;
+                latitude = Math.max(latitude, latitude + 10);
+                height =  Math.min(100, height + 2);
                 break;
             case "RAIN":
-                latitude += 5;
+                latitude = Math.max(latitude, latitude + 5);
                 break;
             case "FOG":    
-                latitude += 1;
+                latitude = Math.max(latitude, latitude + 1);
                 break;
             case "SNOW":
-                height -= 7;
+                height = Math.max(0, height - 7);
                 break;
         }
         if (height > 100)
             height = 100;
+        System.out.println(getAid() + ": " + getWeatherMsg(weatherTower.getWeather(coordinates)));
         coordinates = new Coordinates(longitude, latitude, height);
-        System.out.println(getWeatherMsg(weatherTower.getWeather(coordinates)));
         if (height <= 0) 
             weatherTower.unregister(this);
     }
@@ -58,5 +58,9 @@ public class JetPlane extends Aircraft implements Flyable {
 
     public String getAid() {
         return ("JetPlane#" + name + "(" + id + ")");
+    }
+
+    public String getCoordinates() {
+        return super.getStringCoordinates();
     }
 }

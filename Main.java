@@ -5,7 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.regex.*;  
+import java.io.PrintStream;
 
 class ParseException extends Exception { 
     public ParseException(String errorMessage) {
@@ -16,11 +16,13 @@ class ParseException extends Exception {
 public class Main {
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("should give one argument.");
-            System.exit(1);
+            System.err.println("should give one argument.");
+            System.exit(0);
         }
         try {
-            List<List<Object>> tokens = parseFile(args[1]);
+            List<List<Object>> tokens = parseFile(args[0]);
+            PrintStream fileOut = new PrintStream("simulation.txt");
+            System.setOut(fileOut);
             WeatherTower weatherTower = new WeatherTower();
             int simulation_number = (int)(tokens.get(0).get(0));
             tokens.remove(0);
@@ -33,7 +35,7 @@ public class Main {
                 weatherTower.changeWeather();
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println("Error: " + e.getMessage());
             System.exit(2);
         }
     }
@@ -48,17 +50,15 @@ public class Main {
             if (line == null)
                 throw new ParseException("empty file");
             tokens.add(Arrays.asList(Integer.parseInt(line)));
+			line = reader.readLine();
 			while (line != null) {
                 line_idx++;
-				line = reader.readLine();
                 String[] pieces = line.split("\\s");
                 if (pieces.length != 5)
                     throw new ParseException("invalide number of arguments at line: " + line_idx);
                 tokens.add(Arrays.asList(pieces[0], pieces[1], Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]), Integer.parseInt(pieces[4])));
-                System.out.println(Pattern.matches("", line));
+                line = reader.readLine();
 			}
-		} catch (ParseException e) {
-            throw e;
 		} catch (Exception e) {
             throw e;
 		} finally {
